@@ -7,24 +7,24 @@
     body {
       margin: 0;
       font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: #f5f6fa;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-    body.dark {
       background: #1e1e1e;
       color: #eee;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.light {
+      background: #f5f6fa;
+      color: #222;
     }
 
     header {
       padding: 20px;
       text-align: center;
-      background: #ffffff;
-      border-bottom: 1px solid #ddd;
-    }
-    body.dark header {
       background: #2a2a2a;
       border-bottom: 1px solid #444;
+    }
+    body.light header {
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
     }
 
     .logo {
@@ -44,15 +44,15 @@
     .filters input, .filters select {
       padding: 8px;
       border-radius: 6px;
-      border: 1px solid #ccc;
-      background: #fff;
-      color: #222;
-      min-width: 100px;
-    }
-    body.dark .filters input, body.dark .filters select {
+      border: 1px solid #555;
       background: #333;
       color: #eee;
-      border: 1px solid #555;
+      min-width: 100px;
+    }
+    body.light .filters input, body.light .filters select {
+      background: #fff;
+      color: #222;
+      border: 1px solid #ccc;
     }
     .filters button {
       padding: 8px 16px;
@@ -70,7 +70,6 @@
       font-size: 14px;
       color: #0066cc;
     }
-    body.dark .mode-toggle { color: #6a0dad; }
 
     .feed {
       display: flex;
@@ -79,26 +78,25 @@
       padding: 20px;
     }
     .card {
-      background: #fff;
-      border: 1px solid #eee;
+      background: #2a2a2a;
+      border: 1px solid #444;
       border-radius: 10px;
       width: 90%;
       max-width: 600px;
       margin: 15px 0;
       padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
       transition: transform 0.2s ease;
     }
-    body.dark .card {
-      background: #2a2a2a;
-      border: 1px solid #444;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    body.light .card {
+      background: #fff;
+      border: 1px solid #eee;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
     .card:hover { transform: translateY(-3px); }
     .card h2 { margin: 0; font-size: 20px; color: #0066cc; }
-    body.dark .card h2 { color: #6a0dad; }
-    .card p { margin: 8px 0 0; font-size: 15px; color: #555; }
-    body.dark .card p { color: #ccc; }
+    .card p { margin: 8px 0 0; font-size: 15px; color: #ccc; }
+    body.light .card p { color: #555; }
 
     .btn {
       display: inline-block;
@@ -121,17 +119,17 @@
       align-items: center;
     }
     .popup-content {
-      background: #fff;
+      background: #2a2a2a;
       padding: 25px;
       border-radius: 10px;
       width: 80%;
       max-width: 500px;
       text-align: center;
-      color: #222;
-    }
-    body.dark .popup-content {
-      background: #2a2a2a;
       color: #eee;
+    }
+    body.light .popup-content {
+      background: #fff;
+      color: #222;
     }
     .close-btn {
       margin-top: 20px;
@@ -144,12 +142,12 @@
     }
   </style>
 </head>
-<body>
+<body class="dark">
   <header>
     <div class="logo">
       <span class="only">Only</span><span class="fandom">Fandom</span>
     </div>
-    <div class="mode-toggle" onclick="toggleMode()">Switch Dark/Light Mode</div>
+    <div class="mode-toggle" onclick="toggleMode()">Dark/Light</div>
     <div class="filters">
       <input type="number" id="minAge" placeholder="Min Age">
       <input type="number" id="maxAge" placeholder="Max Age">
@@ -184,12 +182,7 @@
   </div>
 
   <script>
-    const posts = [
-      { title: "Alice", desc: "Age 25, Height 165cm, Price $100, Location India", age:25, height:165, price:100, location:"India" },
-      { title: "Bob", desc: "Age 30, Height 180cm, Price $150, Location USA", age:30, height:180, price:150, location:"USA" },
-      { title: "Clara", desc: "Age 22, Height 170cm, Price $200, Location UK", age:22, height:170, price:200, location:"UK" },
-      { title: "David", desc: "Age 28, Height 175cm, Price $120, Location Japan", age:28, height:175, price:120, location:"Japan" }
-    ];
+    let posts = []; // will be loaded from profiles.html
 
     const feed = document.getElementById('feed');
     const popup = document.getElementById('popup');
@@ -238,17 +231,15 @@
       renderFeed(filtered);
     }
 
-    // Dark/Light mode toggle
     function toggleMode() {
-      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
     }
 
-    // Auto-select country based on IP
     async function autoSelectCountry() {
       try {
         const res = await fetch("https://ipapi.co/json/");
         const data = await res.json();
-        const country = data.country_name; // e.g. "India"
+        const country = data.country_name;
         const locationSelect = document.getElementById('location');
         for (let i = 0; i < locationSelect.options.length; i++) {
           if (locationSelect.options[i].value === country) {
@@ -261,8 +252,20 @@
       }
     }
 
-    // Initial render
-    renderFeed(posts);
+    // Load profiles from external file
+    async function loadProfiles() {
+      try {
+        const res = await fetch("profiles.html"); // this file will contain JSON
+        const data = await res.json();
+        posts = data;
+        renderFeed(posts);
+      } catch (e) {
+        console.error("Failed to load profiles:", e);
+      }
+    }
+
+    // Initialize
+    loadProfiles();
     autoSelectCountry();
   </script>
 </body>

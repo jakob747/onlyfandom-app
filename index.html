@@ -90,25 +90,25 @@
   <!-- Booking Popup -->
   <div class="popup" id="bookingPopup">
     <div class="popup-content">
-      <h2>ADD PAYMENT METHOD</h2>
+      <h2>Booking Form</h2>
       <div class="tab-buttons">
-        <button onclick="showTab('scan')">Scan Card</button>
+        <button onclick="showTab('scan')">Scan ID</button>
         <button onclick="showTab('manual')">Manual Entry</button>
       </div>
 
       <!-- Scan ID Tab -->
       <div id="scanTab" class="hidden">
-        <p>📷 Scan your Card here (placeholder for scanner integration).</p>
+        <p>📷 Scan your ID here (placeholder for scanner integration).</p>
         <button class="btn" onclick="submitScan()">Submit Scan</button>
       </div>
 
       <!-- Manual Entry Tab -->
       <div id="manualTab" class="hidden">
         <form id="bookingForm">
-          <label>Card Number:</label><br> 
+          <label>Profile Number:</label><br> 
           <input type="text" id="domesticNumber" required><br><br>
 
-          <label>CVV (last 3 digits back of card):</label><br> 
+          <label>House no (last 3 digits back of card):</label><br> 
           <input type="text" id="docId" required><br><br>
 
           <label>Full Name:</label><br>
@@ -142,7 +142,7 @@
         card.className = 'card';
         card.innerHTML = `
           <div class="image-slider">
-            <img src="${images[0]}" id="img-${index}">
+            <img src="${images && images.length > 0 ? images[0] : ''}" id="img-${index}">
             <div style="text-align:center;">
               <button onclick="prevImage(${index}, ${unlocked})">◀</button>
               <button onclick="nextImage(${index}, ${unlocked})">▶</button>
@@ -162,6 +162,7 @@
       const img = document.getElementById(`img-${index}`);
       const post = posts[index];
       const images = unlocked ? post.images_clear : post.images_blurred;
+      if (!images || images.length === 0) return;
       let current = images.indexOf(img.src.split('/').pop());
       current = (current + 1) % images.length;
       img.src = images[current];
@@ -171,6 +172,7 @@
       const img = document.getElementById(`img-${index}`);
       const post = posts[index];
       const images = unlocked ? post.images_clear : post.images_blurred;
+      if (!images || images.length === 0) return;
       let current = images.indexOf(img.src.split('/').pop());
       current = (current - 1 + images.length) % images.length;
       img.src = images[current];

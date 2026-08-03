@@ -136,6 +136,10 @@
 
     function renderFeed(list, unlocked = false) {
       feed.innerHTML = '';
+      if (!list || list.length === 0) {
+        feed.innerHTML = '<p>No profiles found.</p>';
+        return;
+      }
       list.forEach((post, index) => {
         const images = unlocked ? post.images_clear : post.images_blurred;
         const card = document.createElement('div');
@@ -305,12 +309,15 @@
 
     async function loadProfiles() {
       try {
-        const res = await fetch("profiles.html");
+        // Changed from profiles.html to profiles.json since it holds profile data. 
+        // If your file is named differently, update "profiles.json" to match it.
+        const res = await fetch("profiles.json");
         const data = await res.json();
         posts = data;
         renderFeed(posts, unlockedState);
       } catch (e) {
         console.error("Failed to load profiles:", e);
+        feed.innerHTML = '<p style="color:red;">Failed to load profile data.</p>';
       }
     }
 

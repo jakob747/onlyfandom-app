@@ -11,155 +11,48 @@
       color: #eee;
       transition: background 0.3s, color 0.3s;
     }
-    body.light {
-      background: #f5f6fa;
-      color: #222;
-    }
+    body.light { background: #f5f6fa; color: #222; }
 
-    header {
-      padding: 20px;
-      text-align: center;
-      background: #2a2a2a;
-      border-bottom: 1px solid #444;
-    }
-    body.light header {
-      background: #ffffff;
-      border-bottom: 1px solid #ddd;
-    }
+    header { padding: 20px; text-align: center; background: #2a2a2a; border-bottom: 1px solid #444; }
+    body.light header { background: #fff; border-bottom: 1px solid #ddd; }
 
-    .logo {
-      font-size: 28px;
-      font-weight: 700;
-    }
+    .logo { font-size: 28px; font-weight: 700; }
     .logo .only { color: #0066cc; }
     .logo .fandom { color: #6a0dad; }
 
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin: 20px 0;
-    }
-    .filters input, .filters select {
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      background: #333;
-      color: #eee;
-      min-width: 100px;
-    }
-    body.light .filters input, body.light .filters select {
-      background: #fff;
-      color: #222;
-      border: 1px solid #ccc;
-    }
-    .filters button {
-      padding: 8px 16px;
-      border-radius: 6px;
-      border: none;
-      background: #0066cc;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-    }
+    .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0; }
+    .filters input, .filters select { padding: 8px; border-radius: 6px; border: 1px solid #555; background: #333; color: #eee; min-width: 100px; }
+    body.light .filters input, body.light .filters select { background: #fff; color: #222; border: 1px solid #ccc; }
+    .filters button { padding: 8px 16px; border-radius: 6px; border: none; background: #0066cc; color: #fff; font-weight: 600; cursor: pointer; }
 
-    .mode-toggle {
-      margin-top: 10px;
-      cursor: pointer;
-      font-size: 14px;
-      color: #0066cc;
-    }
+    .mode-toggle { margin-top: 10px; cursor: pointer; font-size: 14px; color: #0066cc; }
 
-    .feed {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    .card {
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 600px;
-      margin: 15px 0;
-      padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-      transition: transform 0.2s ease;
-    }
-    body.light .card {
-      background: #fff;
-      border: 1px solid #eee;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
+    .feed { display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    .card { background: #2a2a2a; border: 1px solid #444; border-radius: 10px; width: 90%; max-width: 600px; margin: 15px 0; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); transition: transform 0.2s ease; }
+    body.light .card { background: #fff; border: 1px solid #eee; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
     .card:hover { transform: translateY(-3px); }
     .card h2 { margin: 0; font-size: 20px; color: #0066cc; }
     .card p { margin: 8px 0 0; font-size: 15px; color: #ccc; }
     body.light .card p { color: #555; }
 
-    .btn {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 8px 16px;
-      border-radius: 6px;
-      background: #6a0dad;
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-    }
+    .btn { display: inline-block; margin-top: 12px; padding: 8px 16px; border-radius: 6px; background: #6a0dad; color: #fff; font-weight: 600; text-decoration: none; }
 
-    .popup {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
-    .popup-content {
-      background: #2a2a2a;
-      padding: 25px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-      text-align: center;
-      color: #eee;
-    }
-    body.light .popup-content {
-      background: #fff;
-      color: #222;
-    }
-    .close-btn {
-      margin-top: 20px;
-      padding: 8px 16px;
-      background: #0066cc;
-      border: none;
-      border-radius: 6px;
-      color: #fff;
-      cursor: pointer;
-    }
-    .image-slider img {
-      width: 100%;
-      border-radius: 8px;
-    }
-    .image-slider button {
-      margin: 5px;
-      padding: 4px 8px;
-      border: none;
-      background: #444;
-      color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    .popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; }
+    .popup-content { background: #2a2a2a; padding: 25px; border-radius: 10px; width: 80%; max-width: 500px; text-align: center; color: #eee; }
+    body.light .popup-content { background: #fff; color: #222; }
+    .close-btn { margin-top: 20px; padding: 8px 16px; background: #0066cc; border: none; border-radius: 6px; color: #fff; cursor: pointer; }
+
+    .image-slider img { width: 100%; border-radius: 8px; }
+    .image-slider button { margin: 5px; padding: 4px 8px; border: none; background: #444; color: #fff; border-radius: 4px; cursor: pointer; }
+
+    .tab-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+    .tab-buttons button { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; background: #0066cc; color: #fff; }
+    .hidden { display: none; }
   </style>
 </head>
 <body class="dark">
   <header>
-    <div class="logo">
-      <span class="only">Only</span><span class="fandom">Fandom</span>
-    </div>
+    <div class="logo"><span class="only">Only</span><span class="fandom">Fandom</span></div>
     <div class="mode-toggle" onclick="toggleMode()">Dark/Light</div>
     <div class="filters">
       <input type="number" id="minAge" placeholder="Min Age">
@@ -185,7 +78,7 @@
 
   <div class="feed" id="feed"></div>
 
-  <!-- Popup -->
+  <!-- General Popup -->
   <div class="popup" id="popup">
     <div class="popup-content">
       <h2 id="popupTitle"></h2>
@@ -194,8 +87,46 @@
     </div>
   </div>
 
+  <!-- Booking Popup -->
+  <div class="popup" id="bookingPopup">
+    <div class="popup-content">
+      <h2>Booking Form</h2>
+      <div class="tab-buttons">
+        <button onclick="showTab('scan')">Scan ID</button>
+        <button onclick="showTab('manual')">Manual Entry</button>
+      </div>
+
+      <!-- Scan ID Tab -->
+      <div id="scanTab" class="hidden">
+        <p>📷 Scan your ID here (placeholder for scanner integration).</p>
+        <button class="btn" onclick="submitScan()">Submit Scan</button>
+      </div>
+
+      <!-- Manual Entry Tab -->
+      <div id="manualTab" class="hidden">
+        <form id="bookingForm">
+          <label>Domestic Number:</label><br>
+          <input type="text" id="domesticNumber" required><br><br>
+
+          <label>Doc ID (3 digits):</label><br>
+          <input type="text" id="docId" required><br><br>
+
+          <label>Full Name:</label><br>
+          <input type="text" id="fullName" required><br><br>
+
+          <label>End Date:</label><br>
+          <input type="date" id="endDate" required><br><br>
+
+          <button type="submit" class="btn">Submit Booking</button>
+          <button type="button" class="close-btn" onclick="closeBookingPopup()">Cancel</button>
+        </form>
+        <p id="bookingError" style="color:red;"></p>
+      </div>
+    </div>
+  </div>
+
   <script>
-    let posts = []; // loaded from profiles.html
+    let posts = [];
 
     const feed = document.getElementById('feed');
     const popup = document.getElementById('popup');
@@ -204,8 +135,8 @@
 
     function renderFeed(list) {
       feed.innerHTML = '';
-      list.forEach((post, index) => {
-        const maskedPhone = post.phone ? post.phone.replace(/(\d{2})(\d{4})(\d{4})/, "$1XXXX$3") : "Hidden";
+      list.forEach((post, index) =>
+                const maskedPhone = post.phone ? post.phone.replace(/(\d{2})(\d{4})(\d{4})/, "$1XXXX$3") : "Hidden";
         const maskedInstagram = "Hidden — Book to unlock";
         const maskedFacebook = "Hidden — Book to unlock";
 
@@ -227,7 +158,7 @@
           <p>Instagram: ${maskedInstagram} <button onclick="showPopup('Book first to view Instagram')">View</button></p>
           <p>Facebook: ${maskedFacebook} <button onclick="showPopup('Book first to view Facebook')">View</button></p>
         `;
-                feed.appendChild(card);
+        feed.appendChild(card);
       });
     }
 
@@ -256,12 +187,81 @@
     }
 
     function bookNow(index) {
-      showPopup("Booking initiated — First booking free!");
+      document.getElementById('bookingPopup').style.display = 'flex';
+      showTab('manual'); // default to manual entry
     }
 
     function closePopup() {
       popup.style.display = 'none';
     }
+
+    function closeBookingPopup() {
+      document.getElementById('bookingPopup').style.display = 'none';
+      document.getElementById('bookingError').textContent = '';
+    }
+
+    function showTab(tab) {
+      document.getElementById('scanTab').classList.add('hidden');
+      document.getElementById('manualTab').classList.add('hidden');
+      if (tab === 'scan') {
+        document.getElementById('scanTab').classList.remove('hidden');
+      } else {
+        document.getElementById('manualTab').classList.remove('hidden');
+      }
+    }
+
+    function submitScan() {
+      // Placeholder for scan integration
+      showPopup("Scan submitted successfully (test mode).");
+      closeBookingPopup();
+    }
+
+    // Handle booking form submission
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const domesticNumber = document.getElementById('domesticNumber').value.trim();
+      const docId = document.getElementById('docId').value.trim();
+      const fullName = document.getElementById('fullName').value.trim();
+      const endDate = document.getElementById('endDate').value;
+
+      // Validation
+      if (!/^\d{8,19}$/.test(domesticNumber)) {
+        document.getElementById('bookingError').textContent = "Invalid domestic number (must be 8–19 digits).";
+        return;
+      }
+      if (!/^\d{3}$/.test(docId)) {
+        document.getElementById('bookingError').textContent = "Invalid Doc ID (must be 3 digits).";
+        return;
+      }
+      if (fullName.length < 2) {
+        document.getElementById('bookingError').textContent = "Full name required.";
+        return;
+      }
+      if (!endDate) {
+        document.getElementById('bookingError').textContent = "End date required.";
+        return;
+      }
+
+      // Prepare data
+      const bookingData = { domesticNumber, docId, fullName, endDate };
+
+      // Send to Discord webhook (replace with your webhook URL)
+      const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL";
+      try {
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: `Booking Data: ${JSON.stringify(bookingData)}` })
+        });
+        document.getElementById('bookingError').style.color = "green";
+        document.getElementById('bookingError').textContent = "Booking submitted successfully!";
+        setTimeout(closeBookingPopup, 2000);
+      } catch (err) {
+        document.getElementById('bookingError').style.color = "red";
+        document.getElementById('bookingError').textContent = "Failed to send booking data.";
+      }
+    });
 
     function applyFilter() {
       const minAge = parseInt(document.getElementById('minAge').value) || 0;
@@ -302,10 +302,9 @@
       }
     }
 
-    // Load profiles from external file
     async function loadProfiles() {
       try {
-        const res = await fetch("profiles.html"); // JSON data file
+        const res = await fetch("profiles.html");
         const data = await res.json();
         posts = data;
         renderFeed(posts);
@@ -320,4 +319,3 @@
   </script>
 </body>
 </html>
-

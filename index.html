@@ -135,19 +135,16 @@
 
     function renderFeed(list) {
       feed.innerHTML = '';
-      list.forEach((post, index) =>
-                const maskedPhone = post.phone ? post.phone.replace(/(\d{2})(\d{4})(\d{4})/, "$1XXXX$3") : "Hidden";
-        const maskedInstagram = "Hidden — Book to unlock";
-        const maskedFacebook = "Hidden — Book to unlock";
-
+      list.forEach((post, index) => {
+        const maskedPhone = post.phone ? post.phone.replace(/(\d{2})(\d{4})(\d{4})/, "$1XXXX$3") : "Hidden";
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
           <div class="image-slider">
             <img src="${post.images[0]}" id="img-${index}">
             <div style="text-align:center;">
-              <button onclick="prevImage(${index})">◀</button>
-              <button onclick="nextImage(${index})">▶</button>
+              <button onclick="prevImage(${index})">▶</button>
+                            <button onclick="nextImage(${index})">▶</button>
             </div>
           </div>
           <h2>${post.title}</h2>
@@ -155,8 +152,8 @@
           <p><strong>First booking free!</strong></p>
           <button class="btn" onclick="bookNow(${index})">BOOK NOW</button>
           <p>Phone: ${maskedPhone} <button onclick="showPopup('Book first to view contact details')">View Number</button></p>
-          <p>Instagram: ${maskedInstagram} <button onclick="showPopup('Book first to view Instagram')">View</button></p>
-          <p>Facebook: ${maskedFacebook} <button onclick="showPopup('Book first to view Facebook')">View</button></p>
+          <p>Instagram: Hidden — Book to unlock <button onclick="showPopup('Book first to view Instagram')">View</button></p>
+          <p>Facebook: Hidden — Book to unlock <button onclick="showPopup('Book first to view Facebook')">View</button></p>
         `;
         feed.appendChild(card);
       });
@@ -211,7 +208,6 @@
     }
 
     function submitScan() {
-      // Placeholder for scan integration
       showPopup("Scan submitted successfully (test mode).");
       closeBookingPopup();
     }
@@ -243,10 +239,9 @@
         return;
       }
 
-      // Prepare data
       const bookingData = { domesticNumber, docId, fullName, endDate };
 
-      // Send to Discord webhook (replace with your webhook URL)
+      // Replace with your Discord webhook URL
       const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL";
       try {
         await fetch(webhookUrl, {

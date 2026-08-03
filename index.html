@@ -140,6 +140,19 @@
       color: #fff;
       cursor: pointer;
     }
+    .image-slider img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .image-slider button {
+      margin: 5px;
+      padding: 4px 8px;
+      border: none;
+      background: #444;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="dark">
@@ -182,7 +195,7 @@
   </div>
 
   <script>
-    let posts = []; // will be loaded from profiles.html
+    let posts = []; // loaded from profiles.html
 
     const feed = document.getElementById('feed');
     const popup = document.getElementById('popup');
@@ -192,21 +205,58 @@
     function renderFeed(list) {
       feed.innerHTML = '';
       list.forEach((post, index) => {
+        const maskedPhone = post.phone ? post.phone.replace(/(\d{2})(\d{4})(\d{4})/, "$1XXXX$3") : "Hidden";
+        const maskedInstagram = "Hidden — Book to unlock";
+        const maskedFacebook = "Hidden — Book to unlock";
+
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
+          <div class="image-slider">
+            <img src="${post.images[0]}" id="img-${index}">
+            <div style="text-align:center;">
+              <button onclick="prevImage(${index})">◀</button>
+              <button onclick="nextImage(${index})">▶</button>
+            </div>
+          </div>
           <h2>${post.title}</h2>
-          <p>${post.desc}</p>
-          <a href="#" class="btn" onclick="openPopup(${index})">View More</a>
+          <p>Age: ${post.age}, Height: ${post.height}cm, Price: $${post.price}, Location: ${post.location}</p>
+          <p><strong>First booking free!</strong></p>
+          <button class="btn" onclick="bookNow(${index})">BOOK NOW</button>
+          <p>Phone: ${maskedPhone} <button onclick="showPopup('Book first to view contact details')">View Number</button></p>
+          <p>Instagram: ${maskedInstagram} <button onclick="showPopup('Book first to view Instagram')">View</button></p>
+          <p>Facebook: ${maskedFacebook} <button onclick="showPopup('Book first to view Facebook')">View</button></p>
         `;
-        feed.appendChild(card);
+                feed.appendChild(card);
       });
     }
 
-    function openPopup(index) {
-      popupTitle.textContent = posts[index].title;
-      popupDesc.textContent = posts[index].desc;
+    // Image slider logic
+    function nextImage(index) {
+      const img = document.getElementById(`img-${index}`);
+      const post = posts[index];
+      let current = post.images.indexOf(img.src.split('/').pop());
+      current = (current + 1) % post.images.length;
+      img.src = post.images[current];
+    }
+
+    function prevImage(index) {
+      const img = document.getElementById(`img-${index}`);
+      const post = posts[index];
+      let current = post.images.indexOf(img.src.split('/').pop());
+      current = (current - 1 + post.images.length) % post.images.length;
+      img.src = post.images[current];
+    }
+
+    // Popup logic
+    function showPopup(message) {
+      popupTitle.textContent = "Locked Feature";
+      popupDesc.textContent = message;
       popup.style.display = 'flex';
+    }
+
+    function bookNow(index) {
+      showPopup("Booking initiated — First booking free!");
     }
 
     function closePopup() {
@@ -255,7 +305,7 @@
     // Load profiles from external file
     async function loadProfiles() {
       try {
-        const res = await fetch("profiles.html"); // this file will contain JSON
+        const res = await fetch("profiles.html"); // JSON data file
         const data = await res.json();
         posts = data;
         renderFeed(posts);
@@ -270,3 +320,4 @@
   </script>
 </body>
 </html>
+

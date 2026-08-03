@@ -1,1 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OnlyFandom FYP</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: #f5f6fa;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #1e1e1e;
+      color: #eee;
+    }
 
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    body.dark header {
+      background: #2a2a2a;
+      border-bottom: 1px solid #444;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .logo .only { color: #0066cc; }
+    .logo .fandom { color: #6a0dad; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .filters input, .filters select {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #222;
+      min-width: 100px;
+    }
+    body.dark .filters input, body.dark .filters select {
+      background: #333;
+      color: #eee;
+      border: 1px solid #555;
+    }
+    .filters button {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: none;
+      background: #0066cc;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mode-toggle {
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #0066cc;
+    }
+    body.dark .mode-toggle { color: #6a0dad; }
+
+    .feed {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      margin: 15px 0;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+    body.dark .card {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .card:hover { transform: translateY(-3px); }
+    .card h2 { margin: 0; font-size: 20px; color: #0066cc; }
+    body.dark .card h2 { color: #6a0dad; }
+    .card p { margin: 8px 0 0; font-size: 15px; color: #555; }
+    body.dark .card p { color: #ccc; }
+
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background: #6a0dad;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      color: #222;
+    }
+    body.dark .popup-content {
+      background: #2a2a2a;
+      color: #eee;
+    }
+    .close-btn {
+      margin-top: 20px;
+      padding: 8px 16px;
+      background: #0066cc;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <span class="only">Only</span><span class="fandom">Fandom</span>
+    </div>
+    <div class="mode-toggle" onclick="toggleMode()">Switch Dark/Light Mode</div>
+    <div class="filters">
+      <input type="number" id="minAge" placeholder="Min Age">
+      <input type="number" id="maxAge" placeholder="Max Age">
+      <input type="number" id="minHeight" placeholder="Min Height">
+      <input type="number" id="maxHeight" placeholder="Max Height">
+      <input type="number" id="minPrice" placeholder="Min Price">
+      <input type="number" id="maxPrice" placeholder="Max Price">
+      <select id="location">
+        <option value="All">All Countries</option>
+        <option value="India">🇮🇳 India</option>
+        <option value="USA">🇺🇸 USA</option>
+        <option value="UK">🇬🇧 UK</option>
+        <option value="Japan">🇯🇵 Japan</option>
+        <option value="Germany">🇩🇪 Germany</option>
+        <option value="France">🇫🇷 France</option>
+        <option value="Canada">🇨🇦 Canada</option>
+        <option value="Australia">🇦🇺 Australia</option>
+      </select>
+      <button onclick="applyFilter()">Apply</button>
+    </div>
+  </header>
+
+  <div class="feed" id="feed"></div>
+
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2 id="popupTitle"></h2>
+      <p id="popupDesc"></p>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const posts = [
+      { title: "Alice", desc: "Age 25, Height 165cm, Price $100, Location India", age:25, height:165, price:100, location:"India" },
+      { title: "Bob", desc: "Age 30, Height 180cm, Price $150, Location USA", age:30, height:180, price:150, location:"USA" },
+      { title: "Clara", desc: "Age 22, Height 170cm, Price $200, Location UK", age:22, height:170, price:200, location:"UK" },
+      { title: "David", desc: "Age 28, Height 175cm, Price $120, Location Japan", age:28, height:175, price:120, location:"Japan" }
+    ];
+
+    const feed = document.getElementById('feed');
+    const popup = document.getElementById('popup');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupDesc = document.getElementById('popupDesc');
+
+    function renderFeed(list) {
+      feed.innerHTML = '';
+      list.forEach((post, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h2>${post.title}</h2>
+          <p>${post.desc}</p>
+          <a href="#" class="btn" onclick="openPopup(${index})">View More</a>
+        `;
+        feed.appendChild(card);
+      });
+    }
+
+    function openPopup(index) {
+      popupTitle.textContent = posts[index].title;
+      popupDesc.textContent = posts[index].desc;
+      popup.style.display = 'flex';
+    }
+
+    function closePopup() {
+      popup.style.display = 'none';
+    }
+
+    function applyFilter() {
+      const minAge = parseInt(document.getElementById('minAge').value) || 0;
+      const maxAge = parseInt(document.getElementById('maxAge').value) || 100;
+      const minHeight = parseInt(document.getElementById('minHeight').value) || 0;
+      const maxHeight = parseInt(document.getElementById('maxHeight').value) || 300;
+      const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseInt(document.getElementById('maxPrice').value) || 10000;
+      const location = document.getElementById('location').value;
+
+      const filtered = posts.filter(p =>
+        p.age >= minAge && p.age <= maxAge &&
+        p.height >= minHeight && p.height <= maxHeight &&
+        p.price >= minPrice && p.price <= maxPrice &&
+        (location === "All" || p.location === location)
+      );
+      renderFeed(filtered);
+    }
+
+    // Dark/Light mode toggle
+    function toggleMode() {
+      document.body.classList.toggle('dark');
+    }
+
+    // Auto-select country based on IP
+    async function autoSelectCountry() {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        const country = data.country_name; // e.g. "India"
+        const locationSelect = document.getElementById('location');
+        for (let i = 0; i < locationSelect.options.length; i++) {
+          if (locationSelect.options[i].value === country) {
+            locationSelect.selectedIndex = i;
+            break;
+          }
+        }
+      } catch (e) {
+        console.log("Location detection failed:", e);
+      }
+    }
+
+    // Initial render
+    renderFeed(posts);
+    autoSelectCountry();
+  </script>
+</body>
+</html>

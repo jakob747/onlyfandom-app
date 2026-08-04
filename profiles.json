@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profiles Data Source</title>
-</head>
-<body>
-    <script type="application/json" id="profiles-data">
-    [
+  [
       {
     "title": "Mim",
     "age": 24,
@@ -411,6 +403,4 @@
     "images_blurred": ["https://picsum.photos/seed/nabila1/600/400?blur=5", "https://picsum.photos/seed/nabila2/600/400?blur=5"]
   },
 ]
-    </script>
-</body>
-</html>
+

@@ -459,18 +459,27 @@
             alert(successMessage);
         }
 
-        // --- Data Loading from JSON File ---
+        // --- Data Loading from HTML Profile DB File ---
         async function loadProfiles() {
             try {
-                const response = await fetch('profiles.json');
+                const response = await fetch('profiles.html');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                allProfiles = await response.json();
+                const htmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+                const scriptTag = doc.getElementById('profiles-data');
+                
+                if (!scriptTag) {
+                    throw new Error("Profiles data script tag not found in profiles.html");
+                }
+                
+                allProfiles = JSON.parse(scriptTag.textContent.trim());
                 renderProfiles(allProfiles);
             } catch (error) {
                 console.error("Error fetching profiles:", error);
-                document.getElementById('profileContainer').innerHTML = '<p class="loading">Error loading data. Make sure profiles.json exists and you are running a local web server.</p>';
+                document.getElementById('profileContainer').innerHTML = '<p class="loading">Error loading data. Make sure profiles.html exists and contains the correct script tag.</p>';
             }
         }
 

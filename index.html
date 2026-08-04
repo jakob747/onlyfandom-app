@@ -513,7 +513,8 @@
                     }
                 }).join('');
 
-                const phoneDisplay = isPremium ? "+8801783921045" : '<span class="protected-data">+88017XXXXXX</span>';
+                // Grabs the unique phone from the JSON, or shows a protected version if not premium
+const phoneDisplay = isPremium ? profile.phone : `<span class="protected-data">${profile.phone.slice(0, 7)}XXXXX</span>`;
 
                 card.innerHTML = `
                     <div class="img-container">
